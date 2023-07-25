@@ -88,6 +88,3 @@ require_once("partials/head.php");
     
 </body>
 </html>
-<?php
-unset($_SESSION["form_data"]);
-?>

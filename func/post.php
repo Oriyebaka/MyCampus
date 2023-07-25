@@ -10,12 +10,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mysqli_query($con, $insertpost)) {
             alert("", [], "../");
         } else {
-            alert("An error occured<br>Try again later", [$post], "../");
+            alert("An error occured<br>Try again later", [], "../");
         }
     } else {
-        alert("You can post an empty text", [$post], "../");
+        alert("You can post an empty text", [], "../");
     }
 } else {
-    alert("An error occured connecting to server", [$post], "../");
+    alert("An error occured connecting to server", [], "../");
 }
 ?>
