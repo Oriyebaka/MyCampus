@@ -18,7 +18,7 @@ require_once("partials/head.php");
         ?>
         
         <!-- main content -->
-        <div class="main-content right-chat-active">
+        <div class="main-content bg-lightblue theme-dark-bg">
             
             <div class="middle-sidebar-bottom">
                 <div class="middle-sidebar-left">
