@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# If the requested file doesn't exist as a .php file, add .php and check again
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([^\.]+)$ $1.php [L]
+
+# Rewrite the u/ URLs to index.php for user parameter handling
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^u/(.*)$ u/index.php?user=$1 [QSA,L]
