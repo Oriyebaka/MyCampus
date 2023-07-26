@@ -2,6 +2,10 @@
 function clean($data) {
     return htmlspecialchars(str_replace("`", "\`", (str_replace("'", "\'", stripslashes(trim($data))))));
 }
+function unclean($data) {
+    return htmlspecialchars_decode(str_replace("\'", "'", str_replace("\`", "`", stripslashes($data))));
+}
+
 function alert($alert_msg="", $form_data=[], $location="") {
     if ($alert_msg != "") {
         $_SESSION["alert"] = $alert_msg;

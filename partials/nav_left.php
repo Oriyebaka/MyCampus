@@ -10,7 +10,7 @@
                     <li><a href="messages" class="nav-content-bttn open-font" ><i class="feather-message-square btn-round-md bg-red-gradiant me-3"></i><span>Chats</span><span class="circle-count bg-warning mt-0">5</span></a></li>
                     <li><a href="notifications" class="nav-content-bttn open-font" ><i class="feather-bell btn-round-md bg-gold-gradiant me-3"></i><span>Notifications</span><span class="circle-count bg-warning mt-0">23</span></a></li>
                     <li><a href="garage" class="nav-content-bttn open-font" ><i class="feather-shopping-cart btn-round-md bg-mini-gradiant me-3"></i><span>Garage</span></a></li>
-                    <li><a href="profile" class="nav-content-bttn open-font"><i class="feather-user btn-round-md bg-primary-gradiant me-3"></i><span>Profile </span></a></li>                        
+                    <li><a href="u/<?= $getuser["username"] ?>" class="nav-content-bttn open-font"><img src="<?= $getuser["picture"] ?>" alt="<?= $getuser["id"] ?>" style="object-fit:cover; border-radius:50%;" height="40px" width="40px" class="me-3"><span>Profile </span></a></li>                        
                 </ul>
             </div>
 
