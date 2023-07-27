@@ -3,10 +3,10 @@ require_once("session.php");
 require_once("sql.php");
 require_once("misc.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = clean($_POST["username"]);
-    $email = clean($_POST["email"]);
-    $password = clean($_POST["password"]);
-    $confirm = clean($_POST["confirm"]);
+    $username = ucwords(str_replace(' ', '', extraclean(clean($_POST["username"]))));
+    $email = extraclean(clean($_POST["email"]));
+    $password = (clean($_POST["password"]));
+    $confirm = (clean($_POST["confirm"]));
 
     if (($username != "") || ($email != "")) {
         if ($password == $confirm) {

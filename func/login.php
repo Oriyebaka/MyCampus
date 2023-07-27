@@ -3,8 +3,8 @@ require_once("session.php");
 require_once("sql.php");
 require_once("misc.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = clean($_POST["username"]);
-    $password = clean($_POST["password"]);
+    $username = ucwords(str_replace(' ', '', extraclean(clean($_POST["username"]))));
+    $password = (clean($_POST["password"]));
 
     if (($username != "")) {
         // Check if account exists

@@ -19,7 +19,7 @@
 
     <a href="index" class="p-2 text-center ms-auto menu-icon"><i class="feather-home font-xl text-current"></i></a>
     <a href="notifications" class="p-2 text-center ms-3 menu-icon"><span class="dot-count bg-warning"></span><i class="feather-bell font-xl text-current"></i></a>
-    <a href="message" class="p-2 text-center ms-3 menu-icon chat-active-btn"><span class="dot-count bg-warning"></span><i class="feather-message-square font-xl text-current"></i></a>
+    <a href="message" class="p-2 text-center ms-3 menu-icon chat-active-btn"><span class="dot-count bg-warning"></span><i class="feather-message-circle font-xl text-current"></i></a>
     <a href="garage" class="p-2 text-center ms-3 menu-icon center-menu-icon"><i class="feather-shopping-cart font-xl text-current"></i></a>
     <a href="u/<?= $getuser["username"] ?>" class="p-0 ms-3 menu-icon"><img src="<?= $getuser["picture"] ?>" alt="<?= $getuser["id"] ?>" style="object-fit:cover; border-radius:50%;" height="40px" width="40px"></a>
     
