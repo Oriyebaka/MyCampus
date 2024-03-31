@@ -1,41 +1,33 @@
 <?php
-require_once("session.php");
-require_once("sql.php");
-require_once("misc.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = ucwords(str_replace(' ', '', extraclean(clean($_POST["username"]))));
-    $password = (clean($_POST["password"]));
-
-    if (($username != "")) {
-        // Check if account exists
-        $selectuser = "SELECT * FROM users WHERE username='$username' || email='$username'";
-        $queryuser = mysqli_query($con, $selectuser);
-        $numuser = mysqli_num_rows($queryuser);
-        if ($numuser == 1) {
-            $getuser = mysqli_fetch_assoc($queryuser);
-            if ($password == $getuser["password"]) {
-                $userid = $getuser["id"];
-                $loginkey = password_hash(time(), PASSWORD_BCRYPT);
-                $_SESSION["userid"] = $userid;
-                $_SESSION["loginkey"] = $loginkey;
-                $insertloginkey = "UPDATE users SET loginkey='$loginkey' WHERE id='$userid'";
-                if (mysqli_query($con, $insertloginkey)) {
-                    alert("", "", "../");
-                } else {
-                    unset($_SESSION["userid"]);
-                    unset($_SESSION["loginkey"]);
-                    alert("An error occured", [$username], "../login");
-                }
-            } else {
-                    alert("Invalid username and password combination", [$username], "../login");
-            }
-        } else {
-            alert("Invalid username and password combination", [$username], "../login");
-        }
-    } else {
-        alert("Please fill all fields", [$username], "../login");
-    }
-} else {
-    alert("An error occured connecting to server", [$username], "../login");
+	$username = $_POST["username"];
+	$password = $_POST["password"];
+	$select_user = "SELECT id, username, email, password FROM users
+					WHERE username='$username' || email='$username'";
+	$query_user = mysqli_query($con, $select_user);
+	if (mysqli_num_rows($query_user) == 0) {
+		$_SESSION["alert"] = "Cannot find account linked with that username or email.";
+		header("location: login");
+		exit;
+	} else {
+		$getuser = mysqli_fetch_assoc($query_user);
+		if ($getuser["password"] != $password) {
+			$_SESSION["alert"] = "Invalid Login Credentials";
+			header("location: login");
+			exit;
+		} else {
+			$loginkey = password_hash(time(), PASSWORD_BCRYPT);
+			$login_user = "UPDATE users SET loginkey='$loginkey'
+							WHERE username='$username' || email='$username'";
+			$query_login = mysqli_query($con, $login_user);
+			$_SESSION["loginkey"] = $loginkey;
+			$_SESSION["user_id"] = $getuser["id"];
+			if (isset($_SESSION["new_user"]) && $_SESSION["new_user"] == true) {
+				header("location: get-started");
+				unset($_SESSION["new_user"]);
+			} else
+				header("location: index");
+			exit;
+		}
+	}
 }
-?>

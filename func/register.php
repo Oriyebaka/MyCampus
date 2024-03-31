@@ -1,36 +1,31 @@
 <?php
-require_once("session.php");
-require_once("sql.php");
-require_once("misc.php");
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = ucwords(str_replace(' ', '', extraclean(clean($_POST["username"]))));
-    $email = extraclean(clean($_POST["email"]));
-    $password = (clean($_POST["password"]));
-    $confirm = (clean($_POST["confirm"]));
-
-    if (($username != "") || ($email != "")) {
-        if ($password == $confirm) {
-            // Check for duplicate
-            $selectuser = "SELECT username, email FROM users WHERE username='$username' || email='$email'";
-            $queryuser = mysqli_query($con, $selectuser);
-            $numuser = mysqli_num_rows($queryuser);
-            if ($numuser == 0) {
-                $insertuser = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
-                if (mysqli_query($con, $insertuser)) {
-                    alert(ucwords($username)." was created successfully", [], "../login");
-                } else {
-                    alert("An error occured when creating $username", [$username, $email], "../register");
-                }
-            } else {
-                alert("The username: $username or email: $email is already taken...", [$username, $email], "../register");
-            }
-        } else {
-            alert("The passwords do not match", [$username, $email], "../register");
-        }
-    } else {
-        alert("Please fill all fields", [$username, $email], "../register");
-    }
-} else {
-    alert("An error occured connecting to server", [$username, $email], "../register");
+	$firstname = $_POST["firstname"];
+	$lastname = $_POST["lastname"];
+	$username = $_POST["username"];
+	$email = $_POST["email"];
+	$password = $_POST["password"];
+	$confirm = $_POST["confirm"];
+	if ($password != $confirm) {
+		$_SESSION["alert"] = "Passwords do not match";
+		header("location: register");
+		exit;
+	} else {
+		$select_duplicate = "SELECT id, username, email FROM users
+							WHERE username='$username' || email='$email'";
+		$query_duplicate = mysqli_query($con, $select_duplicate);
+		if (mysqli_num_rows($query_duplicate) != 0) {
+			$_SESSION["alert"] = "Username or Email is already in use.";
+			header("location: register");
+			exit;
+		} else {
+			$create_user = "INSERT INTO users (firstname, lastname, username, email, password)
+							VALUES ('$firstname', '$lastname', '$username', '$email', '$password')";
+			$query_user = mysqli_query($con, $create_user);
+			$_SESSION["alert"] = "Your account has been created, please login to continue";
+			$_SESSION["new_user"] = true;
+			header("location: login");
+			exit;
+		}
+	}
 }
-?>

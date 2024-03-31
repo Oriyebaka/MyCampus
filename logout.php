@@ -1,6 +1,5 @@
 <?php
-require_once("func/session.php");
-require_once("func/misc.php");
+session_start();
 session_destroy();
-alert("", [], "login");
-?>
+header("location: ../login");
+exit;

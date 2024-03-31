@@ -30,23 +30,23 @@ function time_ago( $time )
     elseif( $diff < 3600 * 24 * 2 ) // it happened yesterday
         return TIMEBEFORE_YESTERDAY;
         
-    elseif( $diff < 3600 * 24 * 7 )
-        return str_replace( '{num}', round( $diff / ( 3600 * 24 ) ), TIMEBEFORE_DAYS );
+elseif( $diff < 3600 * 24 * 7 )
+return str_replace( '{num}', round( $diff / ( 3600 * 24 ) ), TIMEBEFORE_DAYS );
 
-    elseif( $diff < 3600 * 24 * 7 * 4 )
-        return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 ) ) ), $out == 1 ? TIMEBEFORE_WEEK : TIMEBEFORE_WEEKS );
+elseif( $diff < 3600 * 24 * 7 * 4 )
+return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 ) ) ), $out == 1 ? TIMEBEFORE_WEEK : TIMEBEFORE_WEEKS );
 
-    elseif( $diff < 3600 * 24 * 7 * 4 * 12 )
-        return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 * 4 ) ) ), $out == 1 ? TIMEBEFORE_MONTH : TIMEBEFORE_MONTHS );
+elseif( $diff < 3600 * 24 * 7 * 4 * 12 )
+return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 * 4 ) ) ), $out == 1 ? TIMEBEFORE_MONTH : TIMEBEFORE_MONTHS );
 
-    elseif( $diff < 3600 * 24 * 7 )
-        return str_replace( '{num}', round( $diff / ( 3600 * 24 ) ), TIMEBEFORE_DAYS );
+elseif( $diff < 3600 * 24 * 7 )
+    return str_replace( '{num}', round( $diff / ( 3600 * 24 ) ), TIMEBEFORE_DAYS );
 
-    elseif( $diff < 3600 * 24 * 7 * 4 )
-        return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 ) ) ), $out == 1 ? TIMEBEFORE_WEEK : TIMEBEFORE_WEEKS );
+elseif( $diff < 3600 * 24 * 7 * 4 )
+    return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 ) ) ), $out == 1 ? TIMEBEFORE_WEEK : TIMEBEFORE_WEEKS );
 
-    elseif( $diff < 3600 * 24 * 7 * 4 * 12 )
-        return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 * 4 ) ) ), $out == 1 ? TIMEBEFORE_MONTH : TIMEBEFORE_MONTHS );
+elseif( $diff < 3600 * 24 * 7 * 4 * 12 )
+    return str_replace( '{num}', ( $out = round( $diff / ( 3600 * 24 * 7 * 4 ) ) ), $out == 1 ? TIMEBEFORE_MONTH : TIMEBEFORE_MONTHS );
 
     else // falling back on a usual date format as it happened later than yesterday
         return strftime( date( 'Y', $time ) == date( 'Y' ) ? TIMEBEFORE_FORMAT : TIMEBEFORE_FORMAT_YEAR, $time );

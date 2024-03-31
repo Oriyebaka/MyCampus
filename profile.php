@@ -1,51 +1,39 @@
 <?php
-require_once "required/session.php";
-require_once "required/sql.php";
+require "php_includes/sql_con.php";
+$startid = 0;
+$stopid = 20;
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    if (isset($_GET["startid"]) && isset($_GET["stopid"])) {
+        $startid = $_GET["startid"];
+        $stopid = $_GET["stopid"];
+        unset($_GET["startid"]);
+        unset($_GET["stopid"]);
+    }
+}
+require "php_includes/time_ago.php";
+
+$selectpref = "SELECT * FROM preference WHERE userid='$userid'";
+$querypref = mysqli_query($con, $selectpref);
+$getpref = mysqli_fetch_assoc($querypref);
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<!-- html head here -->
+<?php include "html_includes/html_head.php"; ?>
+<!-- html head here -->
 
-<?php
-const PAGE_TITLE = "Home";
-include_once "includes/head.php";
-include_once "includes/alert.php";
+<script type="text/JavaScript" src="js/jquery.min.js"></script>
+<script>
+$(function() {
+    $('#coverpic').on('click', function() {
+        $('#uploadcover').trigger('click');
+    });
+});
 
-
-// Register Submission Form Handler
-require_once "func/register.php";
-
-// $startid = 0;
-// $stopid = 20;
-// if ($_SERVER["REQUEST_METHOD"] == "GET") {
-//     if (isset($_GET["postid"])) {
-//         $postid = $_GET["postid"];
-//         unset($_GET["postid"]);
-
-        // This was already commented
-        // if (isset($_SESSION["userid"]) && isset($_SESSION["username"])) {
-        //     $con = mysqli_connect("localhost", "root", "", "mycampus");
-        //     $userid = $_SESSION["userid"];
-        //     $username = $_SESSION["username"];
-        //     $selectuser = "SELECT * FROM userdetails WHERE id='$userid' && username='$username'";
-        //     $queryuser = mysqli_query($con, $selectuser);
-        //     $numuser = mysqli_num_rows($queryuser);
-        //     if ($numuser == 1) {
-        //         openpost($postid);
-        //     } else {
-        //         header("location: sharepost.php?postid=$postid");
-        //     }
-        // } else {
-        //     header("location: sharepost.php?postid=$postid");
-        // }
-        // This was already commented\
-//     } elseif (isset($_GET["startid"]) && isset($_GET["stopid"])) {
-//         $startid = $_GET["startid"];
-//         $stopid = $_GET["stopid"];
-//         unset($_GET["startid"]);
-//         unset($_GET["stopid"]);
-//     }
-// }
-?>
+$(function() {
+    $('#profilepic').on('click', function() {
+        $('#uploadprof').trigger('click');
+    });
+});
+</script>
 
 <body class="<?php echo $getpref["color_theme"]." ".$getpref["dark_mode"]; ?> mont-font">
 
@@ -61,23 +49,143 @@ require_once "func/register.php";
         <!-- navigation left -->
         <?php include "html_includes/navigation_left.php"; ?>
         <!-- navigation left -->
-        
-        <!-- main content -->
 
+        <!-- main content -->
         <div class="main-content <?php echo $getpref["menu_pos"]; ?> right-chat-active">
             
             <div class="middle-sidebar-bottom">
                 <div class="middle-sidebar-left">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card w-100 border-0 p-0 bg-white shadow-xss rounded-xxl">
+                                <form id="formcover" enctype="multipart/form-data" action="changecover.php" method="POST">
+                                    <div class="card-body h250 p-0 rounded-xxl overflow-hidden m-3"><img name="coverpic" src="<?php echo "profile/".$getuser["coverpic"]; ?>" style="width:960px; height:250px; object-fit:cover; cursor:pointer;" id="coverpic" alt="image"></div>
+                                    <input id="uploadcover" type="file" name="coverpic" value="" onchange='document.getElementById("formcover").submit()' style="display:none"/>
+                                </form>
+                                <div class="card-body p-0 position-relative">
+                                    <form id="formprof" enctype="multipart/form-data" action="changepic.php" method="POST">
+                                        <figure class="avatar position-absolute w100 z-index-1" style="top:-40px; left: 30px;"><img src="<?php echo "profile/".$getuser["profilepic"]; ?>" style="height:100px; width:100px;object-fit:cover;cursor:pointer;" id="profilepic" alt="image" class="float-right p-1 bg-white rounded-circle"></figure>
+                                        <input id="uploadprof" type="file" name="profilepic" value="" onchange='document.getElementById("formprof").submit()' style="display:none"/>
+                                    </form>
+                                    <h4 class="fw-700 font-sm mt-2 mb-lg-5 mb-4 pl-15"><?php echo $getuser["firstname"]." ".$getuser["lastname"]; ?><span class="fw-500 font-xssss text-grey-500 mt-1 d-block"><?php echo $getuser["email"]; ?></span><span class="fw-500 font-xssss text-grey-500 mt-1 mb-3 d-block"><?php echo $getuser["phone"]; ?></span></h4>
+                                </div>
 
-                    <!-- loader wrapper -->
-                    <?php include "html_includes/loader_wrapper.php"; ?>
-                    <!-- loader wrapper -->
+                                <div class="card-body d-block w-100 shadow-none mb-0 p-0 border-top-xs">
+                                    <ul class="nav nav-tabs h55 d-flex border-bottom-0 ps-4" id="" role="tablist">
+                                        <li class="active list-inline-item me-5"><a class="fw-700 font-xssss text-grey-500 pt-3 pb-3 ls-1 d-inline-block active" href="#about" data-bs-toggle="tab">About</a></li>
+                                        <li class="list-inline-item me-5"><a class="fw-700 font-xssss text-grey-500 pt-3 pb-3 ls-1 d-inline-block" href="#groups" data-bs-toggle="tab">Groups</a></li>
+                                        <li class="list-inline-item me-5"><a class="fw-700 font-xssss text-grey-500 pt-3 pb-3 ls-1 d-inline-block" href="#media" data-bs-toggle="tab">Media</a></li>
+                                        <li class="list-inline-item me-5"><a class="fw-700 me-sm-5 font-xssss text-grey-500 pt-3 pb-3 ls-1 d-inline-block" href="#friends" data-bs-toggle="tab">Friends</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="row feed-body">
+                        <!-- Tab panes -->
+                        
+                        <div class="col-xl-4 col-xxl-3 col-lg-4 pe-0 tab-content">
+                            <!-- About -->
+                            <div id="about" class="card w-100 shadow-xss rounded-xxl border-0 mt-3 mb-3 tab-pane active">
+                                
+                                <div class='card-body d-block p-4'>
+                                    <h4 class='fw-700 mb-3 font-xsss text-grey-900'>About</h4>
+                                <?php
+                                if ($getuser["biograph"] != "") {
+                                    echo "<p class='fw-500 text-grey-500 lh-24 font-xssss mb-0'>".$getuser["biograph"]."</p>";
+                                }
+                                ?>
+                                </div>
+                                <div class="card-body d-flex pt-0">
+                                    <i class="feather-eye text-grey-500 me-3 font-lg"></i>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-0">Profile Visbility <span class="d-block font-xssss fw-500 mt-1 lh-3 text-grey-500"><?php echo $getpref["profile_visibility"]; ?></span></h4>
+                                </div>
+                                <div class="card-body d-flex pt-0"> 
+                                    <i class="feather-map-pin text-grey-500 me-3 font-lg"></i>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-1"><?php echo $getuser["residence"]; ?></h4>
+                                </div>
+                                <div class="card-body d-flex pt-0">
+                                    <?php
+                                    if ($getuser["relationship"] != "") {
+                                        echo "
+                                        <i class='feather-users text-grey-500 me-3 font-lg'></i>
+                                        <h4 class='fw-700 text-grey-900 font-xssss mt-1'>Relationship Status <span class='d-block font-xssss fw-500 mt-1 lh-3 text-grey-500'>".$getuser["relationship"]."</span></h4>";
+                                    }
+                                    ?>
+                                </div>
+                            </div>
 
-                        <!-- Start Main area -->
+                            <!-- Photos -->
+                            <div id="media" class="card w-100 shadow-xss rounded-xxl border-0 mt-3 mb-3 tab-pane fade">
+                                <div class="card-body d-flex align-items-center  p-4">
+                                    <h4 class="fw-700 mb-0 font-xssss text-grey-900">Photos</h4>
+                                    <a href="#" class="fw-600 ms-auto font-xssss text-primary">See all</a>
+                                </div>
+                                <div class="card-body d-block pt-0 pb-2">
+                                    <div class="row">
+                                        <div class="col-6 mb-2 pe-1"><a href="images/e-2.jpg" data-lightbox="roadtrip"><img src="images/e-2.jpg" alt="image" class="img-fluid rounded-3 w-100"></a></div>
+                                        <div class="col-6 mb-2 ps-1"><a href="images/e-3.jpg" data-lightbox="roadtrip"><img src="images/e-3.jpg" alt="image" class="img-fluid rounded-3 w-100"></a></div>
+                                        <div class="col-6 mb-2 pe-1"><a href="images/e-4.jpg" data-lightbox="roadtrip"><img src="images/e-4.jpg" alt="image" class="img-fluid rounded-3 w-100"></a></div>
+                                        <div class="col-6 mb-2 ps-1"><a href="images/e-5.jpg" data-lightbox="roadtrip"><img src="images/e-5.jpg" alt="image" class="img-fluid rounded-3 w-100"></a></div>
+                                        <div class="col-6 mb-2 pe-1"><a href="images/e-2.jpg" data-lightbox="roadtrip"><img src="images/e-2.jpg" alt="image" class="img-fluid rounded-3 w-100"></a></div>
+                                        <div class="col-6 mb-2 ps-1"><a href="images/e-1.jpg" data-lightbox="roadtrip"><img src="images/e-1.jpg" alt="image" class="img-fluid rounded-3 w-100"></a></div>
+                                    </div>
+                                </div>
+                                <div class="card-body d-block w-100 pt-0">
+                                    <a href="#" class="p-2 lh-28 w-100 d-block bg-grey text-grey-800 text-center font-xssss fw-700 rounded-xl"><i class="feather-external-link font-xss me-2"></i> More</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Groups -->
+                            <div id="groups" class="card w-100 shadow-xss rounded-xxl border-0 mt-3 mb-3 tab-pane fade">
+                                <div class="card-body d-flex align-items-center  p-4">
+                                    <h4 class="fw-700 mb-0 font-xssss text-grey-900">Groups</h4>
+                                    <a href="#" class="fw-600 ms-auto font-xssss text-primary">See all</a>
+                                </div>
+                                <div class="card-body d-flex pt-0 ps-4 pe-4 pb-3 overflow-hidden">
+                                    <div class="bg-success me-2 p-3 rounded-xxl"><h4 class="fw-700 font-lg ls-3 lh-1 text-white mb-0"><span class="ls-1 d-block font-xsss text-white fw-600">FEB</span>22</h4></div>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-2">Meeting with clients <span class="d-block font-xsssss fw-500 mt-1 lh-4 text-grey-500">41 madison ave, floor 24 new work, NY 10010</span> </h4>
+                                </div>
+
+                                <div class="card-body d-flex pt-0 ps-4 pe-4 pb-3 overflow-hidden">
+                                    <div class="bg-warning me-2 p-3 rounded-xxl"><h4 class="fw-700 font-lg ls-3 lh-1 text-white mb-0"><span class="ls-1 d-block font-xsss text-white fw-600">APR</span>30</h4></div>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-2">Developer Programe <span class="d-block font-xsssss fw-500 mt-1 lh-4 text-grey-500">41 madison ave, floor 24 new work, NY 10010</span> </h4>
+                                </div>
+
+                                <div class="card-body d-flex pt-0 ps-4 pe-4 pb-3 overflow-hidden">
+                                    <div class="bg-primary me-2 p-3 rounded-xxl"><h4 class="fw-700 font-lg ls-3 lh-1 text-white mb-0"><span class="ls-1 d-block font-xsss text-white fw-600">APR</span>23</h4></div>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-2">Aniversary Event <span class="d-block font-xsssss fw-500 mt-1 lh-4 text-grey-500">41 madison ave, floor 24 new work, NY 10010</span> </h4>
+                                </div>
+                                 
+                            </div>
+                            
+                            <!-- Friends -->
+                            <div id="friends" class="card w-100 shadow-xss rounded-xxl border-0 mt-3 mb-3 tab-pane fade">
+                                <div class="card-body d-flex align-items-center  p-4">
+                                    <h4 class="fw-700 mb-0 font-xssss text-grey-900">Friends</h4>
+                                    <a href="#" class="fw-600 ms-auto font-xssss text-primary">See all</a>
+                                </div>
+                                <div class="card-body d-flex pt-0 ps-4 pe-4 pb-3 overflow-hidden">
+                                    <div class="bg-success me-2 p-3 rounded-xxl"><h4 class="fw-700 font-lg ls-3 lh-1 text-white mb-0"><span class="ls-1 d-block font-xsss text-white fw-600">FEB</span>22</h4></div>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-2">Meeting with clients <span class="d-block font-xsssss fw-500 mt-1 lh-4 text-grey-500">41 madison ave, floor 24 new work, NY 10010</span> </h4>
+                                </div>
+
+                                <div class="card-body d-flex pt-0 ps-4 pe-4 pb-3 overflow-hidden">
+                                    <div class="bg-warning me-2 p-3 rounded-xxl"><h4 class="fw-700 font-lg ls-3 lh-1 text-white mb-0"><span class="ls-1 d-block font-xsss text-white fw-600">APR</span>30</h4></div>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-2">Developer Programe <span class="d-block font-xsssss fw-500 mt-1 lh-4 text-grey-500">41 madison ave, floor 24 new work, NY 10010</span> </h4>
+                                </div>
+
+                                <div class="card-body d-flex pt-0 ps-4 pe-4 pb-3 overflow-hidden">
+                                    <div class="bg-primary me-2 p-3 rounded-xxl"><h4 class="fw-700 font-lg ls-3 lh-1 text-white mb-0"><span class="ls-1 d-block font-xsss text-white fw-600">APR</span>23</h4></div>
+                                    <h4 class="fw-700 text-grey-900 font-xssss mt-2">Aniversary Event <span class="d-block font-xsssss fw-500 mt-1 lh-4 text-grey-500">41 madison ave, floor 24 new work, NY 10010</span> </h4>
+                                </div>
+                                 
+                            </div>
+                        </div>
+
+
                         <div class="col-xl-8 col-xxl-9 col-lg-8">
-                            <div class="card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3" onclick="document.getElementById('compose').style.display='block'">
+                            
+                        <div class="card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3 mt-3" onclick="document.getElementById('compose').style.display='block'">
                                 <div class="card-body p-0">
                                     <a href="#" class=" font-xssss fw-600 text-grey-500 card-body p-0 d-flex align-items-center"><i class="btn-round-sm font-xs text-primary feather-edit-3 me-2 bg-greylight"></i>Create Post</a>
                                 </div>
@@ -93,7 +201,7 @@ require_once "func/register.php";
 
                             <div id="compose" class="w3-modal" style="top: 70px !important">
                                 <div class="w3-modal-content w3-animate-zoom" style="background-color: rgb(0,0,0,0) !important">
-                                    <div class="card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3">
+                                    <div class="container bg-light p-4" style="width:65%; border:3px solid #f7f7f7; border-radius: 20px !important">
                                         <div class="modal-header">
                                             <h2 class="modal-title align-center text-grey-500 fw-600"><b><i class="btn-round-sm font-xs text-primary feather-edit-3 me-2"></i>Create Post</b></h2>
                                             <button type="button" class="btn-close" onclick="document.getElementById('compose').style.display='none'"></button>
@@ -134,7 +242,7 @@ require_once "func/register.php";
                             
                             <?php
                             // This is where a modal for sharing/shared posts (url located posts) is suppose to be
-                            $selectupd="SELECT * FROM news ORDER BY id DESC LIMIT $startid, $stopid";
+                            $selectupd="SELECT * FROM news WHERE posterid='$userid' ORDER BY id DESC LIMIT $startid, $stopid";
                             $queryupd = mysqli_query($con, $selectupd);
                             $num_o_rows = mysqli_num_rows($queryupd);
                             ?>
@@ -219,7 +327,7 @@ require_once "func/register.php";
                                     echo "
                                     <div id='seefull".$getupd["id"]."' class='w3-modal' style='top: 50px !important; overflow-y:auto;'>
                                         <div class='w3-modal-content w3-animate-zoom' style='background-color: rgb(0,0,0,0) !important'>
-                                            <div class='card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3'>
+                                            <div class='container bg-light p-4' style='padding: 5px 5px 5px 5px !important; width:85%; border:3px solid #f7f7f7; border-radius: 20px !important'>
                                             
                                                 <div class='modal-header'>
                                                     <form id='".$getupd["id"]."form' action='../search/profile/getprofile.php' method='post'>
@@ -266,7 +374,7 @@ require_once "func/register.php";
                                     echo "
                                     <div id='seefull".$getupd["id"]."' class='w3-modal' style='top: 50px !important; overflow-y:auto;'>
                                         <div class='w3-modal-content w3-animate-zoom' style='background-color: rgb(0,0,0,0) !important'>
-                                            <div class='card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3'>
+                                            <div class='container bg-light p-4' style='padding: 5px 5px 5px 5px !important; width:85%; border:3px solid #f7f7f7; border-radius: 20px !important'>
                                             
                                                 <div class='modal-header'>
                                                     <form id='".$getupd["id"]."form' action='../search/profile/getprofile.php' method='post'>
@@ -306,7 +414,7 @@ require_once "func/register.php";
                                                     echo "
                                                     <div id='seefull$value' class='w3-modal' style='top: 50px !important; overflow-y:auto;'>
                                                         <div class='w3-modal-content w3-animate-zoom' style='background-color: rgb(0,0,0,0) !important'>
-                                                            <div class='card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3'>
+                                                            <div class='container bg-light p-4' style='padding: 5px 5px 5px 5px !important;width:85%; border:3px solid #f7f7f7; border-radius: 20px !important'>
                                                             
                                                                 <div class='modal-header'>
                                                                     <form id='".$getupd["id"]."form' action='../search/profile/getprofile.php' method='post'>
@@ -339,7 +447,7 @@ require_once "func/register.php";
                                                     echo "
                                                     <div id='seefull$value' class='w3-modal' style='top: 50px !important; overflow-y:auto;'>
                                                         <div class='w3-modal-content w3-animate-zoom' style='background-color: rgb(0,0,0,0) !important'>
-                                                            <div class='card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3'>
+                                                            <div class='container bg-light p-4' style='padding: 5px 5px 5px 5px !important;width:85%; border:3px solid #f7f7f7; border-radius: 20px !important'>
                                                                 <div class='modal-header'>
                                                                     <form id='".$getupd["id"]."form' action='../search/profile/getprofile.php' method='post'>
                                                                         <input type='hidden' name='username' value='".$getposter["username"]."'>
@@ -377,7 +485,7 @@ require_once "func/register.php";
                                                 echo "
                                                 <div id='seefull".$getupd["postmedia"]."' class='w3-modal' style='top: 50px !important; overflow-y:auto;'>
                                                     <div class='w3-modal-content w3-animate-zoom' style='background-color: rgb(0,0,0,0) !important'>
-                                                        <div class='card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3'>
+                                                        <div class='container bg-light p-4' style='padding: 5px 5px 5px 5px !important;width:85%; border:3px solid #f7f7f7; border-radius: 20px !important'>
                                                             
                                                             <div class='modal-header'>
                                                                 <form id='".$getupd["id"]."form' action='../search/profile/getprofile.php' method='post'>
@@ -406,12 +514,12 @@ require_once "func/register.php";
                                                 </div>";
                                             } elseif (($file_ext == "mp4") || ($file_ext == "3gp") || ($file_ext == "mp3") || ($file_ext == "gif")) {
                                                 echo "
-                                                <div class='col-sm-12 p-1 text-center'><video onclick=\"document.getElementById('seefull".$getupd["postmedia"]."').style.display='block'\" src='".$getupd["postmedia"]."' class='rounded-3 w-100' style='height:250px; object-fit:contain;' alt='video'></video></div>";
+                                                <div class='col-sm-12 p-1 text-center'><video onclick=\"document.getElementById('seefull".$getupd["postmedia"]."').style.display='block'\" src='".$getupd["postmedia"]."' class='rounded-3 w-100' style='height: 250px;object-fit:contain' alt='video'></video></div>";
                                                 
                                                 echo "
                                                 <div id='seefull".$getupd["postmedia"]."' class='w3-modal' style='top: 50px !important; overflow-y:auto;'>
                                                     <div class='w3-modal-content w3-animate-zoom' style='background-color: rgb(0,0,0,0) !important'>
-                                                        <div class='card pointer w-100 shadow-xss rounded-xxl border-0 ps-4 pt-4 pe-4 pb-3 mb-3'>
+                                                        <div class='container bg-light p-4' style='padding: 5px 5px 5px 5px !important; width:85%; border:3px solid #f7f7f7; border-radius: 20px !important'>
                                                         
                                                             <div class='modal-header'>
                                                                 <form id='".$getupd["id"]."form' action='../search/profile/getprofile.php' method='post'>
@@ -501,48 +609,10 @@ require_once "func/register.php";
                                 </div>
                             </div>
 
-
-                        </div>               
-                        <!-- End of main area -->
-
-
-
-                        <div class="col-xl-4 col-xxl-3 col-lg-4 ps-lg-0">
-                            <div class="card w-100 shadow-xss rounded-xxl border-0 mb-3">
-                                <div class="card-body d-flex align-items-center p-4">
-                                    <h4 class="fw-700 mb-0 font-xssss text-grey-900">Friends (0)</h4>
-                                    <a href="find-friends.html" class="fw-600 ms-auto font-xssss text-primary">See all</a>
-                                </div>
-                            </div>
-
-                            <div class="card w-100 shadow-xss rounded-xxl border-0 mb-3 mt-3">
-                                <div class="card-body d-flex align-items-center p-4">
-                                    <h4 class="fw-700 mb-0 font-xssss text-grey-900">Suggest Group</h4>
-                                    <a href="group.html" class="fw-600 ms-auto font-xssss text-primary">See all</a>
-                                </div>
-                                <div class="card-body d-flex pt-4 ps-4 pe-4 pb-0 overflow-hidden border-top-xs bor-0">
-                                    <img src="images/e-2.jpg" alt="img" class="img-fluid rounded-xxl mb-2">
-                                </div>
-                                <div class="card-body dd-block pt-0 ps-4 pe-4 pb-4">
-                                    <ul class="memberlist mt-1 mb-2 ms-0 d-block">
-                                        <li class="w20"><a href="#"><img src="images/user-6.png" alt="user" class="w35 d-inline-block" style="opacity: 1;"></a></li>
-                                        <li class="w20"><a href="#"><img src="images/user-7.png" alt="user" class="w35 d-inline-block" style="opacity: 1;"></a></li>
-                                        <li class="w20"><a href="#"><img src="images/user-8.png" alt="user" class="w35 d-inline-block" style="opacity: 1;"></a></li>
-                                        <li class="w20"><a href="#"><img src="images/user-3.png" alt="user" class="w35 d-inline-block" style="opacity: 1;"></a></li>
-                                        <li class="last-member"><a href="#" class="bg-greylight fw-600 text-grey-500 font-xssss w35 ls-3 text-center" style="height: 35px; line-height: 35px;">+2</a></li>
-                                        <li class="ps-3 w-auto ms-1"><a href="#" class="fw-600 text-grey-500 font-xssss">Member apply</a></li>
-                                    </ul>
-                                </div>
-
-
-                                 
-                            </div>
-
-                        </div>
-
+                        </div>                             
                     </div>
                 </div>
-                
+                 
             </div>            
         </div>
         <!-- main content -->
@@ -658,21 +728,72 @@ require_once "func/register.php";
                         
                     </ul>
                 </div>
+                <div class="section full pe-3 ps-4 pt-4 pb-4 position-relative feed-body">
+                    <h4 class="font-xsssss text-grey-500 text-uppercase fw-700 ls-3">GROUPS</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
+                            
+                            <span class="btn-round-sm bg-primary-gradiant me-3 ls-3 text-white font-xssss fw-700">UD</span>
+                            <h3 class="fw-700 mb-0 mt-0">
+                                <a class="font-xssss text-grey-600 d-block text-dark model-popup-chat" href="#">Studio Express</a>
+                            </h3>
+                            <span class="badge mt-0 text-grey-500 badge-pill pe-0 font-xsssss">2 min</span>
+                        </li>
+                        <li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
+                            
+                            <span class="btn-round-sm bg-gold-gradiant me-3 ls-3 text-white font-xssss fw-700">UD</span>
+                            <h3 class="fw-700 mb-0 mt-0">
+                                <a class="font-xssss text-grey-600 d-block text-dark model-popup-chat" href="#">Armany Design</a>
+                            </h3>
+                            <span class="bg-warning ms-auto btn-round-xss"></span>
+                        </li>
+                        <li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
+                            
+                            <span class="btn-round-sm bg-mini-gradiant me-3 ls-3 text-white font-xssss fw-700">UD</span>
+                            <h3 class="fw-700 mb-0 mt-0">
+                                <a class="font-xssss text-grey-600 d-block text-dark model-popup-chat" href="#">De fabous</a>
+                            </h3>
+                            <span class="bg-success ms-auto btn-round-xss"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="section full pe-3 ps-4 pt-0 pb-4 position-relative feed-body">
+                    <h4 class="font-xsssss text-grey-500 text-uppercase fw-700 ls-3">Pages</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
+                            
+                            <span class="btn-round-sm bg-primary-gradiant me-3 ls-3 text-white font-xssss fw-700">UD</span>
+                            <h3 class="fw-700 mb-0 mt-0">
+                                <a class="font-xssss text-grey-600 d-block text-dark model-popup-chat" href="#">Armany Seary</a>
+                            </h3>
+                            <span class="bg-success ms-auto btn-round-xss"></span>
+                        </li>
+                        <li class="bg-transparent list-group-item no-icon pe-0 ps-0 pt-2 pb-2 border-0 d-flex align-items-center">
+                            
+                            <span class="btn-round-sm bg-gold-gradiant me-3 ls-3 text-white font-xssss fw-700">UD</span>
+                            <h3 class="fw-700 mb-0 mt-0">
+                                <a class="font-xssss text-grey-600 d-block text-dark model-popup-chat" href="#">Entropio Inc</a>
+                            </h3>
+                            <span class="bg-success ms-auto btn-round-xss"></span>
+                        </li>
+                        
+                    </ul>
+                </div>
 
             </div>
         </div>
 
         
         <!-- right chat -->
-        <?php include "html_includes/mobile_menu.php"; ?>
 
+        <?php include "html_includes/mobile_menu.php"; ?>
 
     </div> 
 
-    <div class="modal bottom side fade" id="Modalstory" tabindex="-1" role="dialog" style=" overflow-y: auto;">
+    <div class="modal bottom side fade" id="Modalstries" tabindex="-1" role="dialog" style=" overflow-y: auto;">
          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content border-0 bg-transparent">
-                <button type="button" class="close mt-0 position-absolute top--30 right--10" data-dismiss="modal" aria-label="Close"><i class="ti-close text-grey-900 font-xssss"></i></button>
+                <button type="button" class="close mt-0 position-absolute top--30 right--10" data-dismiss="modal" aria-label="Close"><i class="ti-close text-white font-xssss"></i></button>
                 <div class="modal-body p-0">
                     <div class="card w-100 border-0 rounded-3 overflow-hidden bg-gradiant-bottom bg-gradiant-top">
                         <div class="owl-carousel owl-theme dot-style3 story-slider owl-dot-nav nav-none">
@@ -719,19 +840,30 @@ require_once "func/register.php";
         </div> 
     </div>
 
-     
-    
-
-   
-
 
     <script src="js/plugin.js"></script>
     <script src="js/lightbox.js"></script>
     <script src="js/scripts.js"></script>
-
+    <script src="js/jquery.easypiechart.min.js"></script> 
+    <script>
+        $('.chart').easyPieChart({
+            easing: 'easeOutElastic',
+            delay: 3000,
+            barColor: '#3498db',
+            trackColor: '#aaa',
+            scaleColor: false,
+            lineWidth: 5,
+            trackWidth: 5,
+            size: 50,
+            lineCap: 'round',
+            onStep: function(from, to, percent) {
+                this.el.children[0].innerHTML = Math.round(percent);
+            }
+        });
+    </script> 
     
 </body>
 
 
-<!-- Mirrored from uitheme.net/sociala/default.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Apr 2022 22:53:19 GMT -->
+<!-- Mirrored from uitheme.net/sociala/user-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Apr 2022 22:54:23 GMT -->
 </html>
