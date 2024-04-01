@@ -8,7 +8,41 @@ try {
 	$con = mysqli_connect($host, $user, $pswd, $dbnm);
 } catch (Exception $e) {
 	// Contains Database Error Messages
-	echo '<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Connection Error</title><style>body{font-family:Arial,sans-serif;background-color:#15111f;margin:0;padding:0;display:flex;align-items:center;justify-content:center;height:100vh;}.error-container{text-align:center;background-color:#240c3c;padding:20px;border-radius:8px;box-shadow:0 0 10px rgba(255,255,255,0.9);max-width:400px;width:100%;}.error-icon{font-size:50px;color:#dc3232;margin-bottom:20px;}.error-message{font-size:18px;color:#f1f1f1;margin-bottom:20px;}.retry-button{display:inline-block;padding:10px 20px;background-color:#5142FC;color:#fff;text-decoration:none;border-radius:4px;transition:background-color 0.3s;}.retry-button:hover{background-color:#292181;}p{color:#f1f1f1}</style></head><body><div class="error-container"><div class="error-icon">&#9888;</div><div class="error-message">Connection Failed</div><p>There was an error while attempting a connection. Please check your connection settings.</p><a href="index" class="retry-button">Retry</a></div></body></html>
-';
+	echo '<!DOCTYPE html>
+	<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>Error Page | My Campus</title>
+		<link rel="stylesheet" href="css/themify-icons.css">
+		<link rel="stylesheet" href="css/feather.css">
+		<link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body class="color-theme-blue mont-font">
+		<div class="preloader"></div>    
+		<div class="main-wrapper">
+			<div class="main-content pt-0 bg-white ps-0 pe-0">
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-lg-6 col-md-8 text-center default-page vh-100 align-items-center d-flex">
+							<div class="card border-0 text-center d-block p-0">
+								<img src="images/bg-43.png" alt="icon" class="w200 mb-4 ms-auto me-auto pt-md-5">
+								<h1 class="fw-700 text-grey-900 display3-size display4-md-size">Oops! our database connection fell off.</h1>
+								<p class="text-grey-500 font-xsss">I am unable to connect to the database right now. I apologize for any inconvienence this may cause</p>
+								<a href="index" class="p-3 w175 bg-current text-white d-inline-block text-center fw-600 font-xssss rounded-3 text-uppercase ls-3">retry?</a>
+							</div>
+						</div>
+					</div>
+				</div> 
+			</div>
+		</div> 
+		
+		<script src="js/plugin.js"></script>
+		<script src="js/scripts.js"></script>
+	
+	</body>
+	</html>';
 	exit;
 }

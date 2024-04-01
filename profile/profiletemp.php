@@ -318,9 +318,9 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                             while ($getupd = mysqli_fetch_assoc($queryupd)) {
                                 $likes = str_word_count($getupd["likes"]);
                                 if (stristr($getupd["likes"], " ".$username." ")) {
-                                $displaylike = "Unlike";
+                                $like_status = "Unlike";
                                 } else {
-                                $displaylike = "Like";
+                                $like_status = "Like";
                                 }
                                 $dislikes = str_word_count($getupd["dislikes"]);
                                 if (stristr($getupd["dislikes"], " ".$username." ")) {
@@ -354,7 +354,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                             echo "</p>
                                         </div>
                                         <div class='card-body d-flex p-0 mt-3'>
-                                            <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                            <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                             <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                             <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                         </div>
@@ -379,7 +379,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                                 </div>
                                                 <div class='modal-footer text-center'>
                                                     <div class='card-body d-flex p-0 mt-3'>
-                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                                     </div>
@@ -426,7 +426,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                                 </div>
                                                 <div class='modal-footer text-center'>
                                                     <div class='card-body d-flex p-0 mt-3'>
-                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                                     </div>
@@ -469,7 +469,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                                                 </div>
                                                                 <div class='modal-footer text-center'>
                                                                     <div class='card-body d-flex p-0 mt-3'>
-                                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                                                     </div>
@@ -501,7 +501,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                                                 </div>
                                                                 <div class='modal-footer text-center'>
                                                                     <div class='card-body d-flex p-0 mt-3'>
-                                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                                                     </div>
@@ -540,7 +540,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                                             </div>
                                                             <div class='modal-footer text-center'>
                                                                 <div class='card-body d-flex p-0 mt-3'>
-                                                                    <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                                                    <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                                                     <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                                                     <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                                                 </div>
@@ -574,7 +574,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                                             </div>
                                                             <div class='modal-footer text-center'>
                                                                 <div class='card-body d-flex p-0 mt-3'>
-                                                                    <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                                                    <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                                                     <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                                                     <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                                                 </div>
@@ -591,7 +591,7 @@ $getpersonpref = mysqli_fetch_assoc($querypersonpref);
                                     </div>
                                     
                                     <div class='card-body d-flex p-0 mt-3'>
-                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $displaylike</a>
+                                        <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:green !important'><i class='ti-thumb-up'></i>  $likes $like_status</a>
                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss me-2' style='color:red !important'><i class='ti-thumb-down'></i>  $dislikes $displaydis</a>
                                         <a href='#' class='d-flex align-items-center fw-600 text-grey-900 text-dark lh-26 font-xssss'><i class='feather-message-circle text-dark text-grey-900 btn-round-sm font-lg'></i><span class='d-none-xss'>22 Comment</span></a>
                                     </div>

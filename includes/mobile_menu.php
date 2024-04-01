@@ -1,11 +1,10 @@
-<?php
-echo "
+
 <div class='app-footer border-0 shadow-lg bg-primary-gradiant'>
     <a href='index.php' class='nav-content-bttn nav-center'><i class='feather-home'></i></a>
     <a href='messages.php' class='nav-content-bttn'><i class='feather-message-circle'></i></a>
     <a href='notification.php' class='nav-content-bttn' data-tab='chats'><i class='feather-bell'></i></a>            
     <a href='garage.php' class='nav-content-bttn'><i class='feather-shopping-cart'></i></a>
-    <a href='profile.php' class='nav-content-bttn'><img src='profile/".$getuser['profilepic']."' alt='user' class='shadow-xss' style='height:40px; width:40px; border-radius:50%; object-fit:cover;'></a>
+    <a href='profile.php' class='nav-content-bttn'><img src='images/female-profile.png' alt='user' class='shadow-xss' style='height:40px; width:40px; border-radius:50%; object-fit:cover;'></a>
 </div>
 
 
@@ -22,5 +21,4 @@ echo "
         </a>
     </div>
 </form>
-</div>";
-?>
+</div>

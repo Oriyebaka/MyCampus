@@ -12,4 +12,5 @@ if (!isset($_SESSION["user_id"]) || !isset($_SESSION["loginkey"])) {
 		exit;
 	}
 	$get_user = mysqli_fetch_assoc($query_user);
+	$user_id = $get_user["id"];
 }
