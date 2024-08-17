@@ -39,7 +39,3 @@ If you encounter any issues or have questions, please reach out to our support t
 We welcome your feedback and suggestions to improve MyCampus. Share your thoughts with us through the feedback form available in the app or email us at [feedback@mycampus.com](mailto:feedback@mycampus.com).
 
 Thank you for joining MyCampus! We hope you enjoy connecting with your peers and making the most of your college experience.
-
----
-
-**MyCampus** - Connecting College Students, One Click at a Time.
